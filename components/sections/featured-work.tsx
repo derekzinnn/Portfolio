@@ -14,7 +14,7 @@ export function FeaturedWork() {
       </Reveal>
       <Reveal delay={60}>
         <h2 className="text-work font-bold text-balance">
-          Three products,
+          Four products,
           <br />
           shipped to production.
         </h2>

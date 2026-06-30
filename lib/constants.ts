@@ -40,6 +40,25 @@ export const BRAND = {
   accent: "#6c9bf5",
 } as const;
 
+/**
+ * What renders inside a project's mockup frame:
+ *  - placeholder → the striped mockup (default, before the site is live)
+ *  - image       → a screenshot, e.g. { type: "image", src: "/work/cutmakers.png" }
+ *  - iframe      → a live, scaled embed of the running site
+ *
+ * To show a REAL live preview once the subdomain is up, flip `preview` to
+ * `{ type: "iframe", url: <live url> }`. The embedded site MUST allow framing
+ * from this origin — on its OCI nginx server block add:
+ *   add_header Content-Security-Policy "frame-ancestors 'self' https://derek.dev.br";
+ * and it must NOT send `X-Frame-Options: DENY` / `SAMEORIGIN`.
+ * (Dashboards behind auth will frame their login screen — prefer a screenshot
+ * for those, or a public landing route.)
+ */
+export type ProjectPreview =
+  | { type: "placeholder" }
+  | { type: "image"; src: string }
+  | { type: "iframe"; url: string };
+
 export type Project = {
   slug: string;
   /** "01" / "02" / "03". */
@@ -54,15 +73,19 @@ export type Project = {
   stack: string[];
   /** Which side the mockup sits on at wide widths. */
   imageSide: "left" | "right";
+  /** Live site / case-study link (opens in a new tab when absolute). */
+  href?: string;
+  /** Visual shown in the mockup frame (see ProjectPreview). */
+  preview: ProjectPreview;
+  /** Browser-frame chrome shown around every preview type. */
   mockup: {
-    /** Monospace caption inside the placeholder. */
+    /** Monospace caption. */
     label: string;
-    /** Base panel gradient. */
+    /** Base panel gradient (also the loading backdrop for live previews). */
     gradient: string;
     /** Soft-blue glow overlay (radial-gradient). */
     glow: string;
   };
-  href?: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -83,8 +106,12 @@ export const PROJECTS: Project[] = [
       "PIX",
     ],
     imageSide: "left",
+    href: "https://cutmakers.derek.dev.br/landingpage",
+    // Public landing page (not auth-gated) — ideal live preview. Go live:
+    // preview: { type: "iframe", url: "https://cutmakers.derek.dev.br/landingpage" }
+    preview: { type: "placeholder" },
     mockup: {
-      label: "cutmakers — marketplace dashboard",
+      label: "cutmakers — marketplace landing",
       gradient: "linear-gradient(160deg,#11182c,#0b1020)",
       glow: "radial-gradient(120% 85% at 82% 112%,rgba(108,155,245,0.12),transparent 58%)",
     },
@@ -100,6 +127,9 @@ export const PROJECTS: Project[] = [
       "Event-sourced stock model deployed to production on Oracle Cloud Infrastructure.",
     stack: ["TypeScript", "Node.js", "PostgreSQL", "Event Sourcing", "OCI"],
     imageSide: "right",
+    href: "https://inovastok.derek.dev.br",
+    // Go live: preview: { type: "iframe", url: "https://inovastok.derek.dev.br" }
+    preview: { type: "placeholder" },
     mockup: {
       label: "inova stok — inventory console",
       gradient: "linear-gradient(160deg,#101830,#0a1322)",
@@ -117,10 +147,35 @@ export const PROJECTS: Project[] = [
       "RBAC and row-level security with QR-code onboarding for new buyers.",
     stack: ["TypeScript", "Node.js", "PostgreSQL", "RBAC", "RLS"],
     imageSide: "left",
+    href: "https://voluireclub.com.br",
+    // Go live: preview: { type: "iframe", url: "https://voluireclub.com.br" }
+    preview: { type: "placeholder" },
     mockup: {
       label: "voluire club — buyer onboarding",
       gradient: "linear-gradient(160deg,#121529,#0b0f1e)",
       glow: "radial-gradient(120% 85% at 82% 112%,rgba(108,155,245,0.1),transparent 58%)",
+    },
+  },
+  {
+    slug: "nic-crochet",
+    index: "04",
+    category: "Client · Storefront",
+    name: "Nic Crochet",
+    // TODO(derek): confirm Nic Crochet copy + stack.
+    description:
+      "A handmade-crochet storefront for an independent maker — a product catalog, custom-order requests, and a calm shopping experience built to turn browsers into buyers.",
+    techHighlight:
+      "Product catalog and custom-order flow with an admin to manage pieces and orders.",
+    stack: ["TypeScript", "Next.js", "Node.js", "PostgreSQL"],
+    imageSide: "right",
+    href: "https://nic-crochet.derek.dev.br",
+    // Public storefront — ideal live preview. Go live:
+    // preview: { type: "iframe", url: "https://nic-crochet.derek.dev.br" }
+    preview: { type: "placeholder" },
+    mockup: {
+      label: "nic crochet — storefront",
+      gradient: "linear-gradient(160deg,#12152b,#0a0e1f)",
+      glow: "radial-gradient(120% 85% at 18% 112%,rgba(108,155,245,0.1),transparent 58%)",
     },
   },
 ];

@@ -19,7 +19,7 @@ Personal portfolio for **Derek**, a full-stack developer (Node/Express/TS · Rea
 ### ⏭️ Remaining before launch
 
 - Real **GitHub/LinkedIn** handles in `lib/constants.ts` (`SITE.socials`, currently `github.com/derek` placeholders). Email is set to Derek's real address (design showed a placeholder `hello@derek.dev`).
-- Replace the **striped mockup placeholders** with real project screenshots.
+- **Project previews:** flexible per-project `preview` union in `lib/constants.ts` — `placeholder` (default striped mockup) | `image` (screenshot in `/public`) | `iframe` (live, scaled embed via `components/sections/live-preview.tsx`). Each project's live subdomain is set in `href`; flip `preview` to `{ type: "iframe", url: href }` once the site is up. **The embedded site must allow framing** from this origin (OCI nginx: `add_header Content-Security-Policy "frame-ancestors 'self' https://derek.dev.br";`, and no `X-Frame-Options: DENY`). Auth-gated dashboards will frame their login screen → prefer a screenshot for those.
 - **OG image** + **favicon**.
 - Run a clean `pnpm build` before deploy.
 
