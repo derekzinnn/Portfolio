@@ -1,0 +1,195 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   BRAND TOKENS — locked editorial-3D system (Claude Design handoff).
+   Palette: dark blue #102A43 · white-ish #EEF2F7 · soft-blue accent #6C9BF5.
+   NO orange, NO black. Kept as hex so the WebGL crystal can read them.
+   On-light dark tints = ink/X · on-dark whites = paper/X.
+--------------------------------------------------------------------------- */
+:root {
+  --ink: #102a43; /* primary dark-blue background + text on light */
+  --paper: #eef2f7; /* light sections + text on dark */
+  --accent: #6c9bf5; /* single soft-blue accent / CTA */
+
+  /* shadcn semantic tokens → mapped to the default (dark blue) theme */
+  --background: var(--ink);
+  --foreground: var(--paper);
+  --card: #11182c;
+  --card-foreground: var(--paper);
+  --popover: #11182c;
+  --popover-foreground: var(--paper);
+  --primary: var(--accent);
+  --primary-foreground: var(--ink);
+  --secondary: #1a2942;
+  --secondary-foreground: var(--paper);
+  --muted: #16263f;
+  --muted-foreground: rgba(238, 242, 247, 0.66);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.62 0.21 25);
+  --border: rgba(238, 242, 247, 0.1);
+  --input: rgba(238, 242, 247, 0.16);
+  --ring: var(--accent);
+
+  --radius: 0.5rem;
+
+  /* MOTION TOKENS — mirrored in lib/motion.ts for the JS animation libs. */
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 780ms;
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out-glide: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Light editorial surface — flips local tokens so nested primitives adapt. */
+.surface-light {
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+  --secondary: #e1e7f0;
+  --secondary-foreground: var(--ink);
+  --muted: #e1e7f0;
+  --muted-foreground: rgba(16, 42, 67, 0.66);
+  --border: rgba(16, 42, 67, 0.14);
+  --input: rgba(16, 42, 67, 0.14);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.surface-dark {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Direct brand access (opacity modifiers give the rgba(...) tints). */
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-accent: var(--accent);
+
+  /* Hanken Grotesk for everything (wired in app/layout.tsx). */
+  --font-sans: var(--font-hanken);
+  --font-display: var(--font-hanken);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+
+  /* EDITORIAL TYPE SCALE — exact clamps from the locked design.
+     Restraint via weight, not size. */
+  --text-hero: clamp(1.9rem, min(4.6vw, 7vh), 3.4rem);
+  --text-hero--line-height: 1.04;
+  --text-hero--letter-spacing: -0.025em;
+
+  --text-statement: clamp(1.3rem, 3vw, 2.1rem);
+  --text-statement--line-height: 1.06;
+  --text-statement--letter-spacing: -0.02em;
+
+  --text-work: clamp(1.65rem, 3.8vw, 2.7rem);
+  --text-work--line-height: 1.02;
+  --text-work--letter-spacing: -0.025em;
+
+  --text-contact: clamp(1.8rem, 4.6vw, 3.2rem);
+  --text-contact--line-height: 1;
+  --text-contact--letter-spacing: -0.03em;
+
+  --text-about: clamp(1.35rem, 2.6vw, 1.95rem);
+  --text-about--line-height: 1.05;
+  --text-about--letter-spacing: -0.02em;
+
+  --text-project: clamp(1.35rem, 2.4vw, 1.85rem);
+  --text-project--line-height: 1;
+  --text-project--letter-spacing: -0.02em;
+
+  --text-lede: clamp(15px, 1.5vw, 19px);
+  --text-lede--line-height: 1.55;
+  --text-body: clamp(15px, 1.45vw, 18px);
+  --text-body--line-height: 1.6;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+  ::selection {
+    background-color: var(--accent);
+    color: var(--ink);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Keyframes (ported verbatim from the design).
+--------------------------------------------------------------------------- */
+@keyframes dotPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(108, 155, 245, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgba(108, 155, 245, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(108, 155, 245, 0);
+  }
+}
+@keyframes scrollPulse {
+  0% {
+    transform: translateY(-110%);
+  }
+  100% {
+    transform: translateY(280%);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
