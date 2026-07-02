@@ -13,13 +13,15 @@ Personal portfolio for **Derek**, a full-stack developer (Node/Express/TS · Rea
 - **Palette + type system** locked to the handoff (see below); old orange/navy/Syne system fully removed.
 - **Hero:** literal faceted **glass crystal** (icosahedron), **grab-to-rotate** (no auto-spin), inertia glide, render-on-demand. Ported from the design's `crystal.js` into `components/three/crystal-hero.tsx` (raw `three`, lazy `ssr:false`).
 - **Sections:** Hero → "What I do" strip → Selected work (3 alternating project rows) → About + capabilities → Contact (cursor-follow spotlight showpiece) → footer.
-- **Content is real** (from the design) in `lib/constants.ts`: `PROJECTS` (CutMakers / Inova Stok / Voluire Club) + `CAPABILITIES`.
+- **Content is real** in `lib/constants.ts`: `PROJECTS` (CutMakers / Inova Stok / Voluire Club / Nic Crochet) + `CAPABILITIES`.
+- **Project previews** — poster + click-to-load pattern (`components/sections/project-preview.tsx`): a screenshot poster loads with the page (`next/image`, falls back to the striped placeholder); clicking it mounts a sandboxed live `<iframe>` (desktop only; reduced-motion-aware). Login-gated projects (Inova Stok) are poster-only — no `embed`. Each card also has an always-visible "Visit live ↗" link. Posters captured with `pnpm previews:capture` (`scripts/capture-previews.ts`, Playwright, creds via env).
 - Verified: `pnpm lint` + `pnpm typecheck` green; dev server serves `/` 200, compiles clean.
 
 ### ⏭️ Remaining before launch
 
 - Real **GitHub/LinkedIn** handles in `lib/constants.ts` (`SITE.socials`, currently `github.com/derek` placeholders). Email is set to Derek's real address (design showed a placeholder `hello@derek.dev`).
-- **Project previews:** flexible per-project `preview` union in `lib/constants.ts` — `placeholder` (default striped mockup) | `image` (screenshot in `/public`) | `iframe` (live, scaled embed via `components/sections/live-preview.tsx`). Each project's live subdomain is set in `href`; flip `preview` to `{ type: "iframe", url: href }` once the site is up. **The embedded site must allow framing** from this origin (OCI nginx: `add_header Content-Security-Policy "frame-ancestors 'self' https://derek.dev.br";`, and no `X-Frame-Options: DENY`). Auth-gated dashboards will frame their login screen → prefer a screenshot for those.
+- **Preview screenshots:** run `pnpm previews:capture` (after `pnpm exec playwright install chromium` and copying `.env.example` → `.env.local`) to generate `public/previews/{nic-crochet,inova-stok}.webp`. Until captured, those cards show the striped placeholder (graceful fallback).
+- **Live-embed header:** the click-to-load iframe on **Nic Crochet** works today (verified: `nic.derek.dev.br` sends no blocking frame headers). To lock framing down while keeping the portfolio allowed, add to that project's **Caddyfile**: `header Content-Security-Policy "frame-ancestors 'self' https://derek.dev.br"` (never `X-Frame-Options: DENY`). Each project deploys via its own docker-compose behind Caddy.
 - **OG image** + **favicon**.
 - Run a clean `pnpm build` before deploy.
 
@@ -37,7 +39,7 @@ Personal portfolio for **Derek**, a full-stack developer (Node/Express/TS · Rea
 | Hover / card lift | **CSS transitions**                                                                                                                              |
 | Showpiece         | Contact **cursor-follow radial spotlight** (no extra dep)                                                                                        |
 | Package manager   | **pnpm** (`CI=true` in non-TTY shells)                                                                                                           |
-| Deploy            | Vercel                                                                                                                                           |
+| Deploy            | **OCI VPS** — docker-compose per project, **Caddy** reverse proxy (subdomains per project). Not Vercel.                                          |
 
 > Next 15 was specced; `create-next-app` ships **Next 16** (superset). Built on 16.
 
@@ -99,13 +101,14 @@ Scroll-in detection is a plain `IntersectionObserver` (`hooks/use-in-view.ts`) s
 app/                      # routes; globals.css holds the token system
 components/
   ui/                     # shadcn button (Base UI; currently unused)
-  sections/               # hero, positioning, featured-work, project-card, about, contact
+  sections/               # hero, positioning, featured-work, project-card, project-preview, about, contact
   three/                  # crystal-hero.tsx (raw three)
   motion/                 # anime.js reveal wrapper
   layout/                 # header (nav), footer, Section + Eyebrow
   providers/              # Lenis SmoothScroll
 hooks/                    # use-in-view, use-media-query, use-prefers-reduced-motion
 lib/                      # constants (site/nav/projects/capabilities/brand), motion tokens, utils (cn, getCssColor)
+scripts/                  # capture-previews.ts (Playwright poster capture → pnpm previews:capture)
 ```
 
 ---
