@@ -17,8 +17,8 @@ export const SITE = {
   email: "derek.cavalcanti1@gmail.com",
   location: "Brazil · Remote-friendly · PT & EN",
   socials: {
-    github: "https://github.com/derek", // TODO(derek): real handle
-    linkedin: "https://linkedin.com/in/derek", // TODO(derek): real handle
+    github: "https://github.com/derekzinnn",
+    linkedin: "https://www.linkedin.com/in/derek-cavalcanti-893441300",
   },
 } as const;
 
