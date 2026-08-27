@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { Reveal } from "@/components/motion/reveal";
+import { useT } from "@/hooks/use-locale";
 import { SITE } from "@/lib/constants";
 
 /**
@@ -10,6 +11,7 @@ import { SITE } from "@/lib/constants";
  * tracks the pointer across the section (the one indulgent effect on the page).
  */
 export function Contact() {
+  const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
 
@@ -62,23 +64,23 @@ export function Contact() {
       <div className="relative z-[1] mx-auto w-full max-w-[1320px] px-[clamp(20px,6vw,120px)] py-[clamp(96px,16vh,200px)]">
         <Reveal>
           <div className="text-paper/55 mb-[clamp(24px,3.5vh,40px)] flex items-center gap-[12px] text-[13px] tracking-[0.18em] uppercase">
-            <span className="bg-accent h-[7px] w-[7px] rounded-full" /> Contact
+            <span className="bg-accent h-[7px] w-[7px] rounded-full" />{" "}
+            {t.contact.eyebrow}
           </div>
         </Reveal>
 
         <Reveal delay={60}>
           <h2 className="text-contact font-bold text-balance">
-            Let&apos;s build
+            {t.contact.headingA}
             <br />
-            something real<span className="text-accent">.</span>
+            {t.contact.headingB}
+            <span className="text-accent">.</span>
           </h2>
         </Reveal>
 
         <Reveal delay={140}>
           <p className="text-paper/72 mt-[clamp(24px,3.5vh,36px)] max-w-[52ch] text-[clamp(15px,1.6vw,20px)] leading-[1.55]">
-            Open to junior and internship developer roles, and to freelance
-            projects. The fastest way to reach me is email — I usually reply
-            within a day.
+            {t.contact.lede}
           </p>
         </Reveal>
 
@@ -111,7 +113,7 @@ export function Contact() {
 
         <Reveal delay={300}>
           <div className="text-paper/45 mt-[clamp(30px,4.5vh,46px)] text-[13px] tracking-[0.04em]">
-            {SITE.location}
+            {t.contact.location}
           </div>
         </Reveal>
       </div>

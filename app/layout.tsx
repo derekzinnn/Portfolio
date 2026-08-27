@@ -6,6 +6,7 @@ import { SITE } from "@/lib/constants";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { SkipLink } from "@/components/layout/skip-link";
 
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
@@ -41,14 +42,9 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${hanken.variable} antialiased`}>
+    <html lang="en" className={`${hanken.variable} antialiased`}>
       <body className="bg-background text-foreground min-h-svh">
-        <a
-          href="#main"
-          className="focus:bg-accent focus:text-ink sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:px-4 focus:py-2"
-        >
-          Pular para o conteúdo
-        </a>
+        <SkipLink />
         <SmoothScroll>
           <Header />
           <main id="main">{children}</main>

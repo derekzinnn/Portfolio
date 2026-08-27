@@ -3,6 +3,8 @@
 import Link from "next/link";
 
 import { useScrolled } from "@/hooks/use-scrolled";
+import { useT } from "@/hooks/use-locale";
+import { LanguageToggle } from "@/components/layout/language-toggle";
 import { NAV, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +17,7 @@ import { cn } from "@/lib/utils";
  */
 export function Header() {
   const scrolled = useScrolled(24);
+  const t = useT();
 
   return (
     <header
@@ -46,18 +49,19 @@ export function Header() {
         <div
           className={cn(
             "flex items-center text-[14px] tracking-[0.01em] transition-all duration-300",
-            scrolled ? "gap-5 sm:gap-6" : "gap-[clamp(16px,2.6vw,38px)]",
+            scrolled ? "gap-4 sm:gap-5" : "gap-[clamp(14px,2.2vw,30px)]",
           )}
         >
-          {NAV.map((item) => (
+          {NAV.map((id) => (
             <a
-              key={item.id}
-              href={`#${item.id}`}
+              key={id}
+              href={`#${id}`}
               className="text-paper/72 hover:text-paper focus-visible:ring-accent rounded-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >
-              {item.label}
+              {t.nav[id]}
             </a>
           ))}
+          <LanguageToggle />
         </div>
       </nav>
     </header>

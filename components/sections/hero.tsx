@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 
+import { useT } from "@/hooks/use-locale";
+
 // Lazy, client-only: keeps the three.js bundle out of the initial render.
 const CrystalHero = dynamic(
   () => import("@/components/three/crystal-hero").then((m) => m.CrystalHero),
@@ -15,6 +17,8 @@ const rise = (delay: number): React.CSSProperties => ({
 });
 
 export function Hero() {
+  const t = useT();
+
   return (
     <section
       id="top"
@@ -59,15 +63,16 @@ export function Hero() {
             className="bg-accent h-[7px] w-[7px] rounded-full"
             style={{ animation: "dotPulse 2.6s infinite" }}
           />
-          Full-stack developer — available for work
+          {t.hero.eyebrow}
         </div>
 
         <h1 className="text-hero text-paper font-bold text-balance">
           <span className="block" style={rise(150)}>
-            Real products,
+            {t.hero.line1}
           </span>
           <span className="block" style={rise(250)}>
-            built end to end<span className="text-accent">.</span>
+            {t.hero.line2}
+            <span className="text-accent">.</span>
           </span>
         </h1>
 
@@ -75,9 +80,7 @@ export function Hero() {
           className="text-lede text-paper/74 mt-[clamp(20px,3vh,30px)] max-w-[42ch]"
           style={rise(400)}
         >
-          Marketplaces, inventory systems, and post-sale platforms — designed,
-          built, and shipped to production. Node, React, and PostgreSQL, from
-          schema to the last pixel.
+          {t.hero.lede}
         </p>
       </div>
 
@@ -94,7 +97,7 @@ export function Hero() {
             }}
           />
         </span>
-        Scroll
+        {t.hero.scroll}
       </div>
 
       {/* Drag affordance */}
@@ -102,7 +105,7 @@ export function Hero() {
         aria-hidden="true"
         className="text-paper/40 pointer-events-none absolute right-[clamp(20px,5vw,52px)] bottom-[clamp(28px,5vh,52px)] z-[3] flex items-center gap-[8px] font-mono text-[11px] tracking-[0.12em] uppercase"
       >
-        <span className="text-[14px] leading-none">⟲</span> Drag to rotate
+        <span className="text-[14px] leading-none">⟲</span> {t.hero.drag}
       </div>
     </section>
   );

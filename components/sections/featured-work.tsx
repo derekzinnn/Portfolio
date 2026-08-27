@@ -1,28 +1,32 @@
+"use client";
+
 import { Eyebrow, Section } from "@/components/layout/section";
 import { Reveal } from "@/components/motion/reveal";
 import { ProjectCard } from "@/components/sections/project-card";
+import { useT } from "@/hooks/use-locale";
 import { PROJECTS } from "@/lib/constants";
 
-/** Selected work — three production products, alternating editorial rows. */
+/** Selected work — production products, alternating editorial rows. */
 export function FeaturedWork() {
+  const t = useT();
+
   return (
     <Section id="work" surface="dark" className="py-[clamp(90px,14vh,170px)]">
       <Reveal>
         <Eyebrow className="text-paper/55 mb-[clamp(22px,3vh,34px)]">
-          Selected work
+          {t.work.eyebrow}
         </Eyebrow>
       </Reveal>
       <Reveal delay={60}>
         <h2 className="text-work font-bold text-balance">
-          Four products,
+          {t.work.headingA}
           <br />
-          shipped to production.
+          {t.work.headingB}
         </h2>
       </Reveal>
       <Reveal delay={140}>
         <p className="text-paper/68 mt-[clamp(20px,3vh,30px)] max-w-[52ch] text-[clamp(15px,1.5vw,18px)] leading-[1.6]">
-          Each one is live software with real users — payments, inventory, and
-          onboarding that had to work, not just demo well.
+          {t.work.intro}
         </p>
       </Reveal>
 

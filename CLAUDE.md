@@ -15,7 +15,8 @@ Personal portfolio for **Derek**, a full-stack developer (Node/Express/TS · Rea
 - **Sections:** Hero → "What I do" strip → Selected work (3 alternating project rows) → About + capabilities → Contact (cursor-follow spotlight showpiece) → footer.
 - **Content is real** in `lib/constants.ts`: `PROJECTS` (CutMakers / Inova Stok / Voluire Club / Nic Crochet) + `CAPABILITIES`.
 - **Project previews** — poster + click-to-load pattern (`components/sections/project-preview.tsx`): a screenshot poster loads with the page (`next/image`, falls back to the striped placeholder); clicking it mounts a sandboxed live `<iframe>` (desktop only; reduced-motion-aware). Login-gated projects (Inova Stok) are poster-only — no `embed`. Each card also has an always-visible "Visit live ↗" link. Posters captured with `pnpm previews:capture` (`scripts/capture-previews.ts`, Playwright, creds via env).
-- Verified: `pnpm lint` + `pnpm typecheck` green; dev server serves `/` 200, compiles clean.
+- **i18n (EN default / PT-BR)** — all copy lives in `lib/i18n.ts` (`dict.en` / `dict.pt`); a navbar **EN⇄PT toggle** (`components/layout/language-toggle.tsx`) flips it. Locale is a `localStorage`-backed `useSyncExternalStore` (`hooks/use-locale.ts` → `useLocale` / `useT`), so it persists and needs no provider. The toggle also keeps `<html lang>` in sync. Section components read `useT()`; `lib/constants.ts` keeps only language-neutral structure (project copy is keyed by slug in the dict).
+- Verified: `pnpm lint` + `pnpm typecheck` green; dev server serves `/` 200; EN↔PT toggle switches the whole page and persists across reload.
 
 ### ⏭️ Remaining before launch
 
@@ -104,10 +105,10 @@ components/
   sections/               # hero, positioning, featured-work, project-card, project-preview, about, contact
   three/                  # crystal-hero.tsx (raw three)
   motion/                 # anime.js reveal wrapper
-  layout/                 # header (nav), footer, Section + Eyebrow
+  layout/                 # header (nav), footer, Section + Eyebrow, language-toggle, skip-link
   providers/              # Lenis SmoothScroll
-hooks/                    # use-in-view, use-media-query, use-prefers-reduced-motion
-lib/                      # constants (site/nav/projects/capabilities/brand), motion tokens, utils (cn, getCssColor)
+hooks/                    # use-in-view, use-media-query, use-prefers-reduced-motion, use-scrolled, use-locale
+lib/                      # constants (structure), i18n (EN/PT dict), motion tokens, utils (cn, getCssColor)
 scripts/                  # capture-previews.ts (Playwright poster capture → pnpm previews:capture)
 ```
 

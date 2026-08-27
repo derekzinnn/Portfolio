@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { useT } from "@/hooks/use-locale";
 import { cn } from "@/lib/utils";
 
 type ProjectPreviewProps = {
@@ -37,6 +38,7 @@ export function ProjectPreview({
   poster,
   embed,
 }: ProjectPreviewProps) {
+  const t = useT();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const prefersReduced = usePrefersReducedMotion();
   const [activated, setActivated] = useState(false);
@@ -71,7 +73,7 @@ export function ProjectPreview({
       {poster && !posterError && (
         <Image
           src={poster}
-          alt={`${title} preview`}
+          alt={t.preview.alt(title)}
           fill
           sizes="(max-width: 768px) 100vw, 55vw"
           className="object-cover object-top"
@@ -83,7 +85,7 @@ export function ProjectPreview({
       {activated && embed && (
         <iframe
           src={embed}
-          title={`${title} — live preview`}
+          title={t.preview.title(title)}
           loading="lazy"
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
           onLoad={() => setLoaded(true)}
@@ -98,7 +100,7 @@ export function ProjectPreview({
       {/* Loading state while the iframe boots */}
       {activated && !loaded && (
         <div className="text-paper/60 absolute inset-0 z-[2] flex items-center justify-center font-mono text-[12px] tracking-[0.04em]">
-          Loading…
+          {t.preview.loading}
         </div>
       )}
 
@@ -107,11 +109,11 @@ export function ProjectPreview({
         <button
           type="button"
           onClick={() => setActivated(true)}
-          aria-label={`Load live preview of ${title}`}
+          aria-label={t.preview.loadAria(title)}
           className="group/live focus-visible:ring-accent absolute inset-0 z-[4] flex items-center justify-center focus-visible:ring-2 focus-visible:outline-none"
         >
           <span className="bg-ink/70 text-paper ring-paper/20 flex items-center gap-[8px] rounded-full px-[16px] py-[9px] text-[13px] font-medium opacity-0 ring-1 backdrop-blur-sm transition-opacity duration-200 group-hover/live:opacity-100 group-focus-visible/live:opacity-100">
-            <span aria-hidden="true">▶</span> View live
+            <span aria-hidden="true">▶</span> {t.preview.viewLive}
           </span>
         </button>
       )}
@@ -130,7 +132,7 @@ export function ProjectPreview({
       {activated ? (
         <span className="text-paper/70 absolute bottom-[15px] left-[17px] z-[3] flex items-center gap-[7px] rounded-full bg-[rgba(16,42,67,0.6)] px-[10px] py-[4px] font-mono text-[11px] tracking-[0.04em] backdrop-blur-sm">
           <span className="bg-accent h-[6px] w-[6px] animate-pulse rounded-full" />
-          Live
+          {t.preview.live}
         </span>
       ) : (
         <span className="text-paper/50 absolute bottom-[15px] left-[17px] z-[3] font-mono text-[12px] tracking-[0.02em]">

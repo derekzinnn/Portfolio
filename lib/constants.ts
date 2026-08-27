@@ -1,8 +1,7 @@
 /**
- * Site-wide constants — content + data shapes for the editorial-3D portfolio.
- * Copy mirrors the locked Claude Design handoff (Derek Portfolio).
- *
- * TODO(derek): swap the placeholder GitHub/LinkedIn handles for the real ones.
+ * Site-wide constants — structural data for the editorial-3D portfolio.
+ * Translatable copy (headings, descriptions, categories) lives in lib/i18n.ts;
+ * this file holds only language-neutral structure (slugs, stack, URLs, mockups).
  */
 
 export const SITE = {
@@ -13,21 +12,15 @@ export const SITE = {
     "platforms — designed, built, and shipped to production. Node, React, and " +
     "PostgreSQL, from schema to the last pixel.",
   url: "https://derek.dev.br",
-  locale: "pt-BR",
   email: "derek.cavalcanti1@gmail.com",
-  location: "Brazil · Remote-friendly · PT & EN",
   socials: {
     github: "https://github.com/derekzinnn",
     linkedin: "https://www.linkedin.com/in/derek-cavalcanti-893441300",
   },
 } as const;
 
-/** In-page navigation. `id` matches a section element id in app/page.tsx. */
-export const NAV = [
-  { id: "work", label: "Work" },
-  { id: "about", label: "About" },
-  { id: "contact", label: "Contact" },
-] as const;
+/** In-page navigation. Each id matches a section element id + a lib/i18n label. */
+export const NAV = ["work", "about", "contact"] as const;
 
 /**
  * Brand palette fallbacks. The runtime source of truth is CSS
@@ -61,16 +54,11 @@ export type ProjectPreview = {
 };
 
 export type Project = {
+  /** Matches the copy key in lib/i18n.ts → dict[locale].work.projects. */
   slug: string;
   /** "01" / "02" / … */
   index: string;
-  /** Eyebrow category, e.g. "Flagship · Marketplace". */
-  category: string;
   name: string;
-  /** Business description — problem + outcome, for clients. */
-  description: string;
-  /** One technical highlight, for recruiters. */
-  techHighlight: string;
   stack: string[];
   /** Which side the mockup sits on at wide widths. */
   imageSide: "left" | "right";
@@ -90,12 +78,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "cutmakers",
     index: "01",
-    category: "Flagship · Marketplace",
     name: "CutMakers",
-    description:
-      "A two-sided marketplace connecting video creators with freelance editors — handling discovery, contracts, PIX escrow payments, and trust between strangers, end to end.",
-    techHighlight:
-      "Role-based dashboards, real-time chat, and a review system layered over a PIX escrow flow.",
     stack: [
       "TypeScript",
       "Node · Express",
@@ -105,8 +88,7 @@ export const PROJECTS: Project[] = [
     ],
     imageSide: "left",
     href: "https://cutmakers.derek.dev.br/landingpage",
-    // Public landing page — add a poster + embed once captured/live:
-    // preview: { poster: "/previews/cutmakers.webp", embed: "https://cutmakers.derek.dev.br/landingpage" }
+    // Go live: preview: { poster: "/previews/cutmakers.webp", embed: "https://cutmakers.derek.dev.br/landingpage" }
     preview: {},
     mockup: {
       label: "cutmakers — marketplace landing",
@@ -117,17 +99,11 @@ export const PROJECTS: Project[] = [
   {
     slug: "inova-stok",
     index: "02",
-    category: "Production · Inventory",
     name: "Inova Stok",
-    description:
-      "A single-tenant inventory system for a car dealership where every stock movement is an event — fully auditable, reversible, and running in production.",
-    techHighlight:
-      "Event-sourced stock model deployed to production on Oracle Cloud Infrastructure.",
     stack: ["TypeScript", "Node.js", "PostgreSQL", "Event Sourcing", "OCI"],
     imageSide: "right",
     href: "https://inova.derek.dev.br",
     // Login-gated → poster only (a live iframe would just show the login page).
-    // Capture logged-in via scripts/capture-previews.ts.
     preview: { poster: "/previews/inova-stok.webp" },
     mockup: {
       label: "inova stok — inventory console",
@@ -138,12 +114,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "voluire-club",
     index: "03",
-    category: "Client · Real estate",
     name: "Voluire Club",
-    description:
-      "A post-sale platform built for a paying real-estate client — onboarding buyers and guiding them through everything that happens after the purchase is signed.",
-    techHighlight:
-      "RBAC and row-level security with QR-code onboarding for new buyers.",
     stack: ["TypeScript", "Node.js", "PostgreSQL", "RBAC", "RLS"],
     imageSide: "left",
     href: "https://voluireclub.com.br",
@@ -157,13 +128,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "nic-crochet",
     index: "04",
-    category: "Client · Storefront",
     name: "Nic Crochet",
-    // TODO(derek): confirm Nic Crochet copy + stack.
-    description:
-      "A handmade-crochet storefront for an independent maker — a product catalog, custom-order requests, and a calm shopping experience built to turn browsers into buyers.",
-    techHighlight:
-      "Product catalog and custom-order flow with an admin to manage pieces and orders.",
     stack: ["TypeScript", "Next.js", "Node.js", "PostgreSQL"],
     imageSide: "right",
     href: "https://nic.derek.dev.br",
@@ -180,7 +145,8 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-/** About → capabilities grid, grouped by area (no skill-percentage bars). */
+/** About → capabilities grid, grouped by area (no skill-percentage bars).
+ *  `group` keys map to lib/i18n.ts → dict[locale].about.groups. */
 export const CAPABILITIES: { group: string; items: string[] }[] = [
   { group: "Frontend", items: ["React", "Vite", "TypeScript", "Motion"] },
   { group: "Backend", items: ["Node.js", "Express", "TypeScript", "REST"] },
