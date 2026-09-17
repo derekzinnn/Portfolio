@@ -1,0 +1,24 @@
+# Portfolio — VPS deploy compose.
+# Copy this to the DEPLOY_PATH on the VPS (e.g. /srv/portfolio/docker-compose.yml).
+# CI builds + pushes the image; the deploy step runs `docker compose pull && up -d` here.
+
+services:
+  portfolio:
+    image: ghcr.io/derekzinnn/portfolio:latest
+    container_name: derek-portfolio
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    # --- Option A: Caddy runs on the HOST (or anything reverse-proxying localhost) ---
+    # Expose the app only on loopback; point Caddy at http://127.0.0.1:3000
+    ports:
+      - "127.0.0.1:3000:3000"
+
+    # --- Option B: Caddy runs in Docker on a shared network ---
+    # Remove the `ports:` block above, and instead join Caddy's network so it can
+    # reach the app by service name (reverse_proxy portfolio:3000):
+    # networks: [web]
+
+# networks:
+#   web:
+#     external: true

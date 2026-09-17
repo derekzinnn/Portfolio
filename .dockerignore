@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.github
+.vscode
+.idea
+npm-debug.log*
+pnpm-debug.log*
+
+# Never bake secrets or local-only files into the image
+.env*
+
+# Not needed to build the app
+scripts
+deploy
+README.md
+*.md

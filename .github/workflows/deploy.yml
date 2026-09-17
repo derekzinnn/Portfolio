@@ -1,0 +1,74 @@
+name: Deploy
+
+# Runs on every merge/push to main (a PR merge produces a push to main).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {} # lets you trigger a deploy by hand from the Actions tab
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
+env:
+  IMAGE: ghcr.io/derekzinnn/portfolio
+
+jobs:
+  # 1) Build the Docker image on GitHub's runner and push it to GHCR.
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image metadata (tags)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # 2) SSH into the VPS and roll the container to the new image.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            set -e
+            cd "${{ secrets.DEPLOY_PATH }}"
+            # If the GHCR package is PRIVATE, uncomment the next line and add the
+            # GHCR_USER / GHCR_TOKEN (a read:packages PAT) secrets:
+            # echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
+            docker compose pull
+            docker compose up -d
+            docker image prune -f
