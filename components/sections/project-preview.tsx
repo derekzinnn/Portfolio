@@ -9,7 +9,7 @@ import { useT } from "@/hooks/use-locale";
 import { cn } from "@/lib/utils";
 
 type ProjectPreviewProps = {
-  /** Project name — used for alt text, iframe title, and the button aria-label. */
+  /** Project name - used for alt text, iframe title, and the button aria-label. */
   title: string;
   /** Monospace caption shown on the poster/placeholder. */
   label: string;
@@ -25,11 +25,11 @@ type ProjectPreviewProps = {
  * Poster + click-to-load preview. The screenshot loads with the page; the live
  * iframe is mounted only when the visitor clicks (deferring all its weight and,
  * for login-gated apps, avoiding a useless login-screen embed). On mobile the
- * iframe is never offered — poster + "Visit live" link only.
+ * iframe is never offered - poster + "Visit live" link only.
  *
  * Fills a positioned, fixed-aspect parent (the card's mockup frame) so there's
  * no layout shift. Requires the embedded site to allow framing from this origin
- * (`Content-Security-Policy: frame-ancestors …`) — see lib/constants.ts.
+ * (`Content-Security-Policy: frame-ancestors …`) - see lib/constants.ts.
  */
 export function ProjectPreview({
   title,
@@ -50,7 +50,7 @@ export function ProjectPreview({
 
   return (
     <>
-      {/* Striped placeholder — default backdrop + graceful fallback if no poster */}
+      {/* Striped placeholder - default backdrop + graceful fallback if no poster */}
       {!hasPoster && (
         <>
           <div
@@ -81,7 +81,7 @@ export function ProjectPreview({
         />
       )}
 
-      {/* Live embed — mounted only after the visitor opts in */}
+      {/* Live embed - mounted only after the visitor opts in */}
       {activated && embed && (
         <iframe
           src={embed}

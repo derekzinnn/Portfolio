@@ -6,7 +6,7 @@ import { ProjectPreview } from "@/components/sections/project-preview";
 
 /**
  * Featured-work row: an editorial two-column article that alternates the mockup
- * side. Two readable layers — business description (clients) + tech highlight
+ * side. Two readable layers - business description (clients) + tech highlight
  * and stack (recruiters). Copy comes from the active locale (lib/i18n.ts).
  */
 export function ProjectCard({ project }: { project: Project }) {

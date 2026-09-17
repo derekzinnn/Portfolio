@@ -4,7 +4,7 @@ import { Eyebrow, Section } from "@/components/layout/section";
 import { Reveal } from "@/components/motion/reveal";
 import { useT } from "@/hooks/use-locale";
 
-/** "What I do" strip — one tight statement on a light surface. */
+/** "What I do" strip - one tight statement on a light surface. */
 export function Positioning() {
   const t = useT();
 

@@ -9,7 +9,7 @@ import { NAV, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 /**
- * Nav — a full-width transparent bar over the hero that compresses into a
+ * Nav - a full-width transparent bar over the hero that compresses into a
  * floating "toast" pill (fixed, top-center, margins on both sides) once the
  * page is scrolled. The morph is pure CSS transition between two class sets;
  * scroll state comes from useScrolled (no setState-in-effect). Anchor links are

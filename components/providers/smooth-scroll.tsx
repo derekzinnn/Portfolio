@@ -7,7 +7,7 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { LENIS } from "@/lib/motion";
 
 /**
- * Page-wide smooth scroll — Lenis's ONLY job in this project. Anchor links are
+ * Page-wide smooth scroll - Lenis's ONLY job in this project. Anchor links are
  * handled natively by Lenis (`anchors: true`), so the rest of the app can use
  * plain <a href="#id"> without touching the scroll library.
  *

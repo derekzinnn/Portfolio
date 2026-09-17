@@ -6,7 +6,7 @@ import { ProjectCard } from "@/components/sections/project-card";
 import { useT } from "@/hooks/use-locale";
 import { PROJECTS } from "@/lib/constants";
 
-/** Selected work — production products, alternating editorial rows. */
+/** Selected work - production products, alternating editorial rows. */
 export function FeaturedWork() {
   const t = useT();
 

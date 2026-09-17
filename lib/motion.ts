@@ -1,5 +1,5 @@
 /**
- * Motion tokens — JS mirror of the CSS motion variables in app/globals.css.
+ * Motion tokens - JS mirror of the CSS motion variables in app/globals.css.
  *
  * Animation roles (one job each), per the locked design:
  *  - three.js  → hero crystal only
@@ -27,7 +27,7 @@ export const EASE_ANIME = {
   outSoft: "cubicBezier(0.22, 0.61, 0.36, 1)",
 } as const;
 
-/** Scroll-in reveal config (anime.js) — matches the design exactly. */
+/** Scroll-in reveal config (anime.js) - matches the design exactly. */
 export const REVEAL = {
   y: 26,
   duration: 780,

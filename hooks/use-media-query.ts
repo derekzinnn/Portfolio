@@ -3,7 +3,7 @@
 import { useCallback, useSyncExternalStore } from "react";
 
 /**
- * SSR-safe media-query subscription via useSyncExternalStore — avoids the
+ * SSR-safe media-query subscription via useSyncExternalStore - avoids the
  * cascading-render pattern of setState-in-effect. Returns `false` on the server.
  */
 export function useMediaQuery(query: string): boolean {

@@ -7,7 +7,7 @@ import { useT } from "@/hooks/use-locale";
 import { SITE } from "@/lib/constants";
 
 /**
- * Contact — home of the single showpiece: a cursor-follow radial spotlight that
+ * Contact - home of the single showpiece: a cursor-follow radial spotlight that
  * tracks the pointer across the section (the one indulgent effect on the page).
  */
 export function Contact() {

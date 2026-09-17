@@ -19,7 +19,7 @@ type RevealProps = {
 };
 
 /**
- * Scroll-in reveal powered by anime.js — the project's single owner of
+ * Scroll-in reveal powered by anime.js - the project's single owner of
  * entrance/reveal motion. Detection is delegated to a plain IntersectionObserver
  * (useInView) so the animation library stays decoupled from scroll.
  *
@@ -40,9 +40,21 @@ export function Reveal({
     staggerChildren ? (Array.from(node.children) as HTMLElement[]) : [node];
 
   // Apply the hidden starting state up front so nothing flashes before reveal.
+  // If reduced-motion is (or becomes) true, CLEAR any hidden state so content
+  // is always visible - never leave it stuck at opacity:0.
   useEffect(() => {
-    if (prefersReduced || !ref.current) return;
-    for (const el of collectTargets(ref.current)) {
+    const node = ref.current;
+    if (!node) return;
+    const targets = collectTargets(node);
+    if (prefersReduced) {
+      for (const el of targets) {
+        el.style.opacity = "";
+        el.style.transform = "";
+        el.style.willChange = "";
+      }
+      return;
+    }
+    for (const el of targets) {
       el.style.opacity = "0";
       el.style.transform = `translateY(${REVEAL.y}px)`;
       el.style.willChange = "opacity, transform";

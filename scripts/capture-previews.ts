@@ -6,7 +6,7 @@
  * One-time prerequisite (downloads the headless browser):
  *   pnpm exec playwright install chromium
  *
- * Credentials are read from the environment — copy .env.example to .env.local
+ * Credentials are read from the environment - copy .env.example to .env.local
  * and fill it in. NEVER commit .env.local. Login selectors default to common
  * patterns; override via env if Inova's form differs.
  */
@@ -20,7 +20,7 @@ const proc = process as unknown as { loadEnvFile?: (p?: string) => void };
 try {
   proc.loadEnvFile?.(".env.local");
 } catch {
-  /* no .env.local — rely on the real environment */
+  /* no .env.local - rely on the real environment */
 }
 
 const OUT_DIR = path.join(process.cwd(), "public", "previews");
@@ -46,7 +46,7 @@ async function main(): Promise<void> {
   const page = await context.newPage();
 
   // --- Nic Crochet (public storefront) ---
-  const nicUrl = process.env.PREVIEW_NIC_URL ?? "https://nic.derek.dev.br";
+  const nicUrl = process.env.PREVIEW_NIC_URL ?? "https://niccrochet.com.br";
   await page.goto(nicUrl, { waitUntil: "domcontentloaded" });
   await saveWebp(page, "nic-crochet.webp");
 
@@ -91,7 +91,7 @@ async function main(): Promise<void> {
     await saveWebp(page, "inova-stok.webp");
   } else {
     console.warn(
-      "! Skipping Inova Stok — set PREVIEW_INOVA_USER / PREVIEW_INOVA_PASS in .env.local",
+      "! Skipping Inova Stok - set PREVIEW_INOVA_USER / PREVIEW_INOVA_PASS in .env.local",
     );
   }
 

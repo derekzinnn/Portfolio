@@ -1,4 +1,4 @@
-# Portfolio — VPS deploy compose.
+# Portfolio - VPS deploy compose.
 # Copy this to the DEPLOY_PATH on the VPS (e.g. /srv/portfolio/docker-compose.yml).
 # CI builds + pushes the image; the deploy step runs `docker compose pull && up -d` here.
 

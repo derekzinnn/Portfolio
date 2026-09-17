@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ---------------------------------------------------------------------------
-   BRAND TOKENS — locked editorial-3D system (Claude Design handoff).
+   BRAND TOKENS - locked editorial-3D system (Claude Design handoff).
    Palette: dark blue #102A43 · white-ish #EEF2F7 · soft-blue accent #6C9BF5.
    NO orange, NO black. Kept as hex so the WebGL crystal can read them.
    On-light dark tints = ink/X · on-dark whites = paper/X.
@@ -36,7 +36,7 @@
 
   --radius: 0.5rem;
 
-  /* MOTION TOKENS — mirrored in lib/motion.ts for the JS animation libs. */
+  /* MOTION TOKENS - mirrored in lib/motion.ts for the JS animation libs. */
   --duration-fast: 200ms;
   --duration-base: 400ms;
   --duration-slow: 780ms;
@@ -44,7 +44,7 @@
   --ease-out-glide: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* Light editorial surface — flips local tokens so nested primitives adapt. */
+/* Light editorial surface - flips local tokens so nested primitives adapt. */
 .surface-light {
   --background: var(--paper);
   --foreground: var(--ink);
@@ -101,7 +101,7 @@
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
 
-  /* EDITORIAL TYPE SCALE — exact clamps from the locked design.
+  /* EDITORIAL TYPE SCALE - exact clamps from the locked design.
      Restraint via weight, not size. */
   --text-hero: clamp(1.9rem, min(4.6vw, 7vh), 3.4rem);
   --text-hero--line-height: 1.04;

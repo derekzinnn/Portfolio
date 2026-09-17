@@ -10,7 +10,7 @@ import {
   type Locale,
 } from "@/lib/i18n";
 
-// localStorage-backed store (SSR-safe, no setState-in-effect) — same pattern as
+// localStorage-backed store (SSR-safe, no setState-in-effect) - same pattern as
 // use-media-query / use-scrolled. Subscribers are notified on same-tab changes
 // (setLocale) and cross-tab changes (the `storage` event).
 let listeners: (() => void)[] = [];
@@ -41,7 +41,7 @@ export function setLocale(next: Locale): void {
   try {
     window.localStorage.setItem(LOCALE_STORAGE_KEY, next);
   } catch {
-    /* storage unavailable — stay on the current in-memory locale */
+    /* storage unavailable - stay on the current in-memory locale */
   }
   for (const notify of listeners) notify();
 }

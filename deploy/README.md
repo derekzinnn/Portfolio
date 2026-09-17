@@ -1,4 +1,4 @@
-# Deploy — CI/CD (merge to `main` → build on GitHub → run on the VPS)
+# Deploy - CI/CD (merge to `main` → build on GitHub → run on the VPS)
 
 Flow: **push/merge to `main`** → GitHub Actions builds a Docker image and pushes it to **GHCR** → it SSHes into the VPS and runs `docker compose pull && up -d`. The heavy Next build runs on GitHub's runner, so the VPS never risks an OOM.
 
@@ -35,7 +35,7 @@ Repo → **Settings → Secrets and variables → Actions → New repository sec
 | `DEPLOY_PATH` | folder on the VPS holding the compose file (e.g. `/srv/portfolio`) |
 | `VPS_PORT`    | _(optional)_ SSH port, only if not `22`                            |
 
-> `GITHUB_TOKEN` is provided automatically — it's what pushes the image to GHCR. You don't create it.
+> `GITHUB_TOKEN` is provided automatically - it's what pushes the image to GHCR. You don't create it.
 
 ### 3. Put the compose file on the VPS
 
@@ -63,7 +63,7 @@ Wire Caddy to it (pick the option matching your compose):
 ### 4. Make the GHCR image pullable
 
 After the **first** successful workflow run, the image exists at
-`ghcr.io/derekzinnn/portfolio`. Simplest: make it **public** so the VPS pulls with no login —
+`ghcr.io/derekzinnn/portfolio`. Simplest: make it **public** so the VPS pulls with no login -
 GitHub → your profile → **Packages → portfolio → Package settings → Change visibility → Public**.
 
 > Prefer to keep it private? Create a PAT with `read:packages`, add secrets `GHCR_USER` +

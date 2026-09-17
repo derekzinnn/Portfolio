@@ -5,8 +5,9 @@ import dynamic from "next/dynamic";
 import { useT } from "@/hooks/use-locale";
 
 // Lazy, client-only: keeps the three.js bundle out of the initial render.
-const CrystalHero = dynamic(
-  () => import("@/components/three/crystal-hero").then((m) => m.CrystalHero),
+const RubiksCubeHero = dynamic(
+  () =>
+    import("@/components/three/rubiks-cube-hero").then((m) => m.RubiksCubeHero),
   { ssr: false },
 );
 
@@ -34,8 +35,8 @@ export function Hero() {
         }}
       />
 
-      {/* The crystal — fills the hero, grabbable across the whole area */}
-      <CrystalHero
+      {/* The Rubik's cube - fills the hero, grabbable across the whole area */}
+      <RubiksCubeHero
         align="right"
         className="absolute inset-0 z-[1] block h-full w-full"
       />
@@ -52,8 +53,8 @@ export function Hero() {
 
       {/* Copy column */}
       <div
-        className="pointer-events-none absolute inset-0 z-[3] flex flex-col justify-center px-[clamp(20px,6vw,120px)]"
-        style={{ maxWidth: "min(62%,760px)" }}
+        className="pointer-events-none absolute inset-0 z-[3] flex flex-col justify-center pr-[clamp(20px,6vw,120px)] pl-[clamp(24px,9vw,180px)]"
+        style={{ maxWidth: "min(66%,820px)" }}
       >
         <div
           className="text-paper/66 mb-[clamp(18px,2.6vh,30px)] flex items-center gap-[11px] text-[clamp(11px,1vw,13px)] tracking-[0.2em] uppercase"
